@@ -1,0 +1,26 @@
+.movie-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.movie-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.movie-carousel::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 4px;
+}
+
+.movie-carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.movie-carousel > * {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
