@@ -2,8 +2,8 @@ import type { Movie } from '../types/movie'
 import type { MovieDetail } from '../types/movieDetail'
 import axios from 'axios'
 
-const API_KEY = 'd09afaa763de60066107386a9848e1cd'
-const BASE_URL = 'https://api.themoviedb.org/3'
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+const BASE_URL = import.meta.env.VITE_TMDB_API_URL
 
 
 export async function searchMovies(query: string) {
