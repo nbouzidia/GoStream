@@ -10,6 +10,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView, meta: { requiresAuth: true } },
+  { path: '/home', name: 'HomeView', component: HomeView, meta: { requiresAuth: true } },
   { path: '/film/:id', name: 'DetailsFilm', component: Details, meta: { requiresAuth: true } },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
@@ -36,12 +37,6 @@ router.beforeEach(async (to, from, next) => {
   if (!authStore.initialized) {
     // Attendre que Firebase Auth soit initialisé
     await new Promise<void>((resolve) => {
-      const unsubscribe = () => {
-        if (authStore.initialized) {
-          resolve()
-        }
-      }
-      // Vérifier périodiquement si l'initialisation est terminée
       const checkInitialized = () => {
         if (authStore.initialized) {
           resolve()
@@ -53,22 +48,23 @@ router.beforeEach(async (to, from, next) => {
     })
   }
   
-  // Vérifier si la route nécessite une authentification
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!authStore.isAuthenticated()) {
-      // Rediriger vers la page de connexion
-      next({ name: 'Login' })
-    } else {
-      next()
-    }
-  } else {
-    // Si l'utilisateur est déjà connecté et essaie d'accéder à login/register
-    if ((to.name === 'Login' || to.name === 'Register') && authStore.isAuthenticated()) {
-      next({ name: 'Home' })
-    } else {
-      next()
-    }
+  const isAuthenticated = authStore.isAuthenticated
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  
+  // Si la route nécessite une authentification et l'utilisateur n'est pas connecté
+  if (requiresAuth && !isAuthenticated) {
+    next({ name: 'Login' })
+    return
   }
+  
+  // Si l'utilisateur est connecté et essaie d'accéder à login/register
+  if (isAuthenticated && (to.name === 'Login' || to.name === 'Register')) {
+    next({ name: 'Home' })
+    return
+  }
+  
+  // Dans tous les autres cas, permettre la navigation
+  next()
 })
 
 export default router

@@ -135,6 +135,7 @@ const handleRegister = async () => {
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 2;
+  margin-top: 40px;
 }
 
 .register-header {
