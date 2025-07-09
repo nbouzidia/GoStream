@@ -55,6 +55,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const isOpen = ref(false)
+
 const toggleMenu = () => {
   isOpen.value = !isOpen.value
 }
@@ -65,7 +66,7 @@ const closeMenu = () => {
 const logout = async () => {
   await authStore.logout()
   closeMenu()
-  router.push('/')
+  router.push('/login')
 }
 </script>
 
