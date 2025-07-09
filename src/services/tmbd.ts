@@ -1,6 +1,5 @@
-import { Genre } from '@/types/genre'
-import { Movie } from '@/types/movie'
-import { MovieDetail } from '@/types/movieDetail'
+import type { Movie } from '../types/movie'
+import type { MovieDetail } from '../types/movieDetail'
 import axios from 'axios'
 
 const API_KEY = 'd09afaa763de60066107386a9848e1cd'
