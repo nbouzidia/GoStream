@@ -3,13 +3,13 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBWoUV6PWVdnpdpSQ4HlXwCRnDH27t9ziQ",
-  authDomain: "movies-app-347ea.firebaseapp.com",
-  projectId: "movies-app-347ea",
-  storageBucket: "movies-app-347ea.firebasestorage.app",
-  messagingSenderId: "642359137355",
-  appId: "1:642359137355:web:623bde57942611cfb5e9ce",
-  measurementId: "G-YJ0KE0Q4MS"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
