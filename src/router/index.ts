@@ -7,6 +7,7 @@ import SimilarMovies from '../views/SimilarMovies.vue'
 import Favoris from '@/views/Favoris.vue'
 import Genres from '@/views/Genres.vue'
 import { useAuthStore } from '@/stores/auth'
+import Populaires from '@/views/Populaires.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView, meta: { requiresAuth: true } },
@@ -22,6 +23,7 @@ const routes = [
   },
   { path: '/genres', name: 'Genres', component: Genres, meta: { requiresAuth: true } },
   { path: '/favoris', name: 'Favoris', component: Favoris, meta: { requiresAuth: true } },
+  { path:'/popular', name: 'Popular', component: Populaires, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
@@ -29,13 +31,10 @@ const router = createRouter({
   routes
 })
 
-// Guard global pour protéger les routes
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  // Attendre que l'état d'authentification soit initialisé
   if (!authStore.initialized) {
-    // Attendre que Firebase Auth soit initialisé
     await new Promise<void>((resolve) => {
       const checkInitialized = () => {
         if (authStore.initialized) {
@@ -51,19 +50,16 @@ router.beforeEach(async (to, from, next) => {
   const isAuthenticated = authStore.isAuthenticated
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   
-  // Si la route nécessite une authentification et l'utilisateur n'est pas connecté
   if (requiresAuth && !isAuthenticated) {
     next({ name: 'Login' })
     return
   }
   
-  // Si l'utilisateur est connecté et essaie d'accéder à login/register
   if (isAuthenticated && (to.name === 'Login' || to.name === 'Register')) {
     next({ name: 'Home' })
     return
   }
   
-  // Dans tous les autres cas, permettre la navigation
   next()
 })
 
