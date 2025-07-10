@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <!-- Loading State -->
+
     <div v-if="moviesStore.loading" class="loading-container">
       <div class="loading-spinner">
         <i class="fas fa-spinner fa-spin"></i>
@@ -83,10 +83,10 @@
               />
               <div class="movie-overlay">
                 <div class="movie-actions">
-                  <button class="action-btn" @click.stop="addToFavorites(movie)">
+                  <button class="action-btn" @click="addToFavorites(movie)">
                     <i class="fas fa-heart"></i>
                   </button>
-                  <button class="action-btn" @click.stop="viewDetails(movie)">
+                  <button class="action-btn" @click="viewDetails(movie)">
                     <i class="fas fa-info"></i>
                   </button>
                 </div>
@@ -248,7 +248,7 @@ const loadMovies = async () => {
 }
 
 const viewDetails = (movie: Movie) => {
-  router.push(`/movie/${movie.id}`)
+  router.push(`/film/${movie.id}`)
 }
 
 const addToFavorites = (movie: Movie) => {
