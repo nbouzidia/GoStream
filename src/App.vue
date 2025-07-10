@@ -1,14 +1,20 @@
+<script lang="ts" setup>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+</script>
+
 <template>
   <div id="app" class="app-container">
-    <!-- Écran de chargement pendant l'initialisation -->
     <div v-if="!authStore.initialized" class="loading-screen">
       <div class="loading-spinner">
         <div class="spinner"></div>
         <p>Chargement...</p>
       </div>
     </div>
-    
-    <!-- Application normale une fois initialisée -->
+
     <template v-else>
       <Header />
       <main class="main-content">
@@ -18,14 +24,6 @@
     </template>
   </div>
 </template>
-
-<script lang="ts" setup>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-import { useAuthStore } from '@/stores/auth'
-
-const authStore = useAuthStore()
-</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400&display=swap');
@@ -50,7 +48,13 @@ body {
   padding: 1rem;
 }
 
-h1, h2, h3, h4, li, p , button {
+h1,
+h2,
+h3,
+h4,
+li,
+p,
+button {
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -59,7 +63,8 @@ h1, h2, h3, h4, li, p , button {
 h1 {
   font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
-p, li {
+p,
+li {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
@@ -112,8 +117,12 @@ img {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-spinner p {

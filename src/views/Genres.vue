@@ -49,7 +49,7 @@ const scrollToGenre = (genreId: number) => {
       behavior: 'smooth',
       block: 'start',
     })
-    // Ajouter un petit délai pour s'assurer que le scroll est visible
+
     setTimeout(() => {
       element.style.backgroundColor = 'rgba(251, 189, 97, 0.1)'
       setTimeout(() => {

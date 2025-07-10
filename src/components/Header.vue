@@ -1,3 +1,27 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const isOpen = ref(false)
+
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value
+}
+const closeMenu = () => {
+  isOpen.value = false
+}
+
+const logout = async () => {
+  await authStore.logout()
+  closeMenu()
+  router.push('/login')
+}
+</script>
+
 <template>
   <header id="header">
     <div class="header-content">
@@ -30,7 +54,7 @@
             </button>
           </div>
         </div>
-        
+
         <div v-else class="auth-buttons">
           <RouterLink to="/login" class="btn btn-login" @click="closeMenu">
             <i class="fa fa-sign-in-alt"></i>
@@ -45,30 +69,6 @@
     </div>
   </header>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const authStore = useAuthStore()
-
-const isOpen = ref(false)
-
-const toggleMenu = () => {
-  isOpen.value = !isOpen.value
-}
-const closeMenu = () => {
-  isOpen.value = false
-}
-
-const logout = async () => {
-  await authStore.logout()
-  closeMenu()
-  router.push('/login')
-}
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400&display=swap');
@@ -334,20 +334,20 @@ const logout = async () => {
   opacity: 1;
 }
 
-.links > a:nth-of-type(1):hover ~ .line { 
-  left: 0; 
+.links > a:nth-of-type(1):hover ~ .line {
+  left: 0;
   width: var(--link-1-width, 80px);
 }
-.links > a:nth-of-type(2):hover ~ .line { 
-  left: var(--link-2-left, 100px); 
+.links > a:nth-of-type(2):hover ~ .line {
+  left: var(--link-2-left, 100px);
   width: var(--link-2-width, 90px);
 }
-.links > a:nth-of-type(3):hover ~ .line { 
-  left: var(--link-3-left, 210px); 
+.links > a:nth-of-type(3):hover ~ .line {
+  left: var(--link-3-left, 210px);
   width: var(--link-3-width, 80px);
 }
-.links > a:nth-of-type(4):hover ~ .line { 
-  left: var(--link-4-left, 310px); 
+.links > a:nth-of-type(4):hover ~ .line {
+  left: var(--link-4-left, 310px);
   width: var(--link-4-width, 80px);
 }
 

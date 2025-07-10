@@ -1,8 +1,12 @@
 <template>
   <div class="populaires-page">
-    <!-- Hero Section -->
     <section class="hero-section" v-if="moviesStore.popular.length > 0">
-      <div class="hero-backdrop" :style="{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${moviesStore.popular[0].backdrop_path})` }">
+      <div
+        class="hero-backdrop"
+        :style="{
+          backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${moviesStore.popular[0].backdrop_path})`,
+        }"
+      >
         <div class="hero-overlay">
           <div class="hero-content">
             <div class="hero-badge">
@@ -36,7 +40,6 @@
       </div>
     </section>
 
-
     <div v-if="moviesStore.loading" class="loading-container">
       <div class="loading-spinner">
         <i class="fas fa-spinner fa-spin"></i>
@@ -44,7 +47,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div v-if="moviesStore.error" class="error-container">
       <div class="error-message">
         <i class="fas fa-exclamation-triangle"></i>
@@ -56,10 +58,7 @@
       </div>
     </div>
 
-    <!-- Content Sections -->
     <div class="content-sections" v-if="!moviesStore.loading && !moviesStore.error">
-      
-      <!-- Popular Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -69,15 +68,19 @@
           <p>Les films les plus regardés en ce moment</p>
         </div>
         <div class="movies-grid">
-          <div 
-            v-for="movie in moviesStore.popular.slice(1, 13)" 
+          <div
+            v-for="movie in moviesStore.popular.slice(1, 13)"
             :key="movie.id"
             class="movie-card"
             @click="viewDetails(movie)"
           >
             <div class="movie-poster">
-              <img 
-                :src="movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder-poster.jpg'" 
+              <img
+                :src="
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    : '/placeholder-poster.jpg'
+                "
                 :alt="movie.title"
                 @error="handleImageError"
               />
@@ -106,7 +109,6 @@
         </div>
       </section>
 
-      <!-- Top Rated Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -116,15 +118,19 @@
           <p>Les films avec les meilleures critiques</p>
         </div>
         <div class="movies-carousel">
-          <div 
-            v-for="movie in moviesStore.topRated.slice(0, 10)" 
+          <div
+            v-for="movie in moviesStore.topRated.slice(0, 10)"
             :key="movie.id"
             class="carousel-item"
             @click="viewDetails(movie)"
           >
             <div class="carousel-poster">
-              <img 
-                :src="movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : '/placeholder-poster.jpg'" 
+              <img
+                :src="
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                    : '/placeholder-poster.jpg'
+                "
                 :alt="movie.title"
                 @error="handleImageError"
               />
@@ -140,7 +146,6 @@
         </div>
       </section>
 
-      <!-- Trending Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -150,16 +155,20 @@
           <p>Les films qui font le buzz cette semaine</p>
         </div>
         <div class="trending-list">
-          <div 
-            v-for="(movie, index) in moviesStore.trends.slice(0, 5)" 
+          <div
+            v-for="(movie, index) in moviesStore.trends.slice(0, 5)"
             :key="movie.id"
             class="trending-item"
             @click="viewDetails(movie)"
           >
             <div class="trending-rank">{{ index + 1 }}</div>
             <div class="trending-poster">
-              <img 
-                :src="movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : '/placeholder-poster.jpg'" 
+              <img
+                :src="
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+                    : '/placeholder-poster.jpg'
+                "
                 :alt="movie.title"
                 @error="handleImageError"
               />
@@ -182,7 +191,6 @@
         </div>
       </section>
 
-      <!-- Upcoming Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -192,15 +200,19 @@
           <p>Les films à ne pas manquer</p>
         </div>
         <div class="upcoming-grid">
-          <div 
-            v-for="movie in moviesStore.upcoming.slice(0, 8)" 
+          <div
+            v-for="movie in moviesStore.upcoming.slice(0, 8)"
             :key="movie.id"
             class="upcoming-card"
             @click="viewDetails(movie)"
           >
             <div class="upcoming-poster">
-              <img 
-                :src="movie.poster_path ? `https://image.tmdb.org/t/p/w400${movie.poster_path}` : '/placeholder-poster.jpg'" 
+              <img
+                :src="
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w400${movie.poster_path}`
+                    : '/placeholder-poster.jpg'
+                "
                 :alt="movie.title"
                 @error="handleImageError"
               />
@@ -216,7 +228,6 @@
           </div>
         </div>
       </section>
-
     </div>
   </div>
 </template>
@@ -240,7 +251,7 @@ const loadMovies = async () => {
       moviesStore.fetchPopular(),
       moviesStore.fetchTopRated(),
       moviesStore.fetchTrends(),
-      moviesStore.fetchUpcoming()
+      moviesStore.fetchUpcoming(),
     ])
   } catch (error) {
     console.error('Error loading movies:', error)
@@ -271,7 +282,7 @@ const formatDate = (dateString: string) => {
   return date.toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   })
 }
 </script>
@@ -424,7 +435,8 @@ const formatDate = (dateString: string) => {
 }
 
 /* Loading & Error States */
-.loading-container, .error-container {
+.loading-container,
+.error-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -834,39 +846,39 @@ const formatDate = (dateString: string) => {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-description {
     font-size: 1rem;
   }
-  
+
   .hero-meta {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .hero-actions {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .trending-item {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .trending-rank {
     font-size: 2rem;
   }
-  
+
   .upcoming-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .content-sections {
     padding: 0 1rem;
   }
@@ -876,15 +888,15 @@ const formatDate = (dateString: string) => {
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .section-header h2 {
     font-size: 2rem;
   }
-  
+
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
-  
+
   .carousel-item {
     min-width: 140px;
   }

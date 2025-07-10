@@ -1,7 +1,6 @@
 <template>
   <div class="movie-card" @mouseenter="onHover" @mouseleave="onLeave">
     <div class="poster-container">
-      <!-- Image avec effet de zoom et filtre -->
       <img
         v-if="movie.poster_path"
         :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
@@ -9,37 +8,30 @@
         class="poster"
         loading="lazy"
       />
-      
-      <!-- Placeholder si pas d'image -->
+
       <div v-else class="poster-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21,15 16,10 5,21"/>
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21,15 16,10 5,21" />
         </svg>
         <span>{{ movie.title }}</span>
       </div>
-      
-      <!-- Bouton favori amélioré -->
-      <button 
-        class="favorite-btn" 
-        @click.stop="toggleFavorite"
-        :class="{ active: isFavorite }"
-      >
+
+      <button class="favorite-btn" @click.stop="toggleFavorite" :class="{ active: isFavorite }">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+          />
         </svg>
       </button>
-      
-      <!-- Note en badge -->
+
       <div v-if="movie.vote_average" class="rating-badge">
         <span class="rating-score">{{ movie.vote_average.toFixed(1) }}</span>
         <span class="rating-icon">⭐</span>
       </div>
-      
-      <!-- Overlay amélioré avec plusieurs sections -->
+
       <div class="overlay">
-        <!-- Section titre et infos principales -->
         <div class="overlay-header">
           <h3 class="movie-title">{{ movie.title }}</h3>
           <div class="movie-meta">
@@ -51,53 +43,46 @@
             </span>
           </div>
         </div>
-        
-        <!-- Section description -->
+
         <div class="overlay-content">
           <p v-if="movie.overview" class="overview">
             {{ movie.overview.slice(0, 120) }}{{ movie.overview.length > 120 ? '...' : '' }}
           </p>
-          
-          <!-- Genres si disponibles -->
+
           <div v-if="movie.genre_ids && movie.genre_ids.length > 0" class="genres">
-            <span 
-              v-for="genreId in movie.genre_ids.slice(0, 3)" 
-              :key="genreId" 
-              class="genre-tag"
-            >
+            <span v-for="genreId in movie.genre_ids.slice(0, 3)" :key="genreId" class="genre-tag">
               {{ getGenreName(genreId) }}
             </span>
           </div>
         </div>
-        
-        <!-- Section actions -->
+
         <div class="overlay-actions">
           <RouterLink :to="`/film/${movie.id}`" class="details-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12,6 12,12 16,14"/>
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12,6 12,12 16,14" />
             </svg>
             <span>Voir les détails</span>
           </RouterLink>
-          
-          <button 
+
+          <button
             class="quick-favorite-btn"
             @click.stop="toggleFavorite"
             :class="{ active: isFavorite }"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
             </svg>
           </button>
         </div>
-        
-        <!-- Effet de particles animé -->
+
         <div class="particles">
           <div class="particle" v-for="i in 6" :key="i"></div>
         </div>
       </div>
-      
-      <!-- Gradient overlay pour améliorer la lisibilité -->
+
       <div class="gradient-overlay"></div>
     </div>
   </div>
@@ -134,9 +119,9 @@ const toggleFavorite = () => {
     homepage: '',
     imdb_id: '',
     belongs_to_collection: null,
-    origin_country: []
+    origin_country: [],
   }
-  
+
   favoritesStore.toggleFavorite(movieDetail)
 }
 
@@ -173,7 +158,7 @@ const genreMap: { [key: number]: string } = {
   10770: 'Téléfilm',
   53: 'Thriller',
   10752: 'Guerre',
-  37: 'Western'
+  37: 'Western',
 }
 
 const getGenreName = (genreId: number) => {
@@ -586,7 +571,8 @@ const getGenreName = (genreId: number) => {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.7;
   }
@@ -603,29 +589,30 @@ const getGenreName = (genreId: number) => {
     height: 360px;
     margin: 0.5rem;
   }
-  
+
   .overlay {
     padding: 1rem;
   }
-  
+
   .movie-title {
     font-size: 1.2rem;
   }
-  
+
   .overview {
     font-size: 0.85rem;
   }
-  
+
   .details-btn {
     padding: 0.6rem 1rem;
     font-size: 0.8rem;
   }
-  
-  .favorite-btn, .quick-favorite-btn {
+
+  .favorite-btn,
+  .quick-favorite-btn {
     width: 40px;
     height: 40px;
   }
-  
+
   .rating-badge {
     font-size: 0.8rem;
     padding: 0.3rem 0.6rem;
@@ -638,29 +625,29 @@ const getGenreName = (genreId: number) => {
     height: 300px;
     margin: 0.3rem;
   }
-  
+
   .movie-title {
     font-size: 1rem;
   }
-  
+
   .overview {
     font-size: 0.8rem;
   }
-  
+
   .movie-meta {
     font-size: 0.75rem;
   }
-  
+
   .genre-tag {
     font-size: 0.7rem;
     padding: 0.2rem 0.5rem;
   }
-  
+
   .overlay-actions {
     flex-direction: column;
     gap: 0.8rem;
   }
-  
+
   .details-btn {
     width: 100%;
   }

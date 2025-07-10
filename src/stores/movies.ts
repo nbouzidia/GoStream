@@ -8,7 +8,7 @@ import {
   searchMovies,
   searchMoviesByGenre,
   getMovieDetails,
-  getRecommendations
+  getRecommendations,
 } from '@/services/tmbd'
 import type { Movie } from '@/types/movie'
 import type { MovieDetail } from '@/types/movieDetail'
@@ -61,7 +61,6 @@ export const useMoviesStore = defineStore('movies', () => {
     loading.value = false
   }
 
-
   async function fetchMovieDetails(id: number) {
     loading.value = true
     movieDetails.value = await getMovieDetails(id)
@@ -90,6 +89,6 @@ export const useMoviesStore = defineStore('movies', () => {
     fetchSearch,
     fetchByGenre,
     fetchMovieDetails,
-    fetchRecommendations
+    fetchRecommendations,
   }
 })

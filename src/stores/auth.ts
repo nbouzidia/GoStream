@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { User } from 'firebase/auth'
-import { 
-  signInWithEmailAndPassword, 
+import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from 'firebase/auth'
 import { auth } from '../firebase'
 
@@ -15,7 +15,6 @@ export const useAuthStore = defineStore('auth', () => {
   const error = ref('')
   const initialized = ref(false)
 
-  // Computed property pour la réactivité
   const isAuthenticated = computed(() => !!user.value)
 
   onAuthStateChanged(auth, (currentUser) => {
@@ -70,6 +69,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     register,
     logout,
-    isAuthenticated
+    isAuthenticated,
   }
 })
