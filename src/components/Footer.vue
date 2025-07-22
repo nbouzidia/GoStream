@@ -1,9 +1,3 @@
-<template>
-    <footer class="footer">
-      <p>&copy; 2025 - Projet Vue TMDB</p>
-    </footer>
-</template>
-  
 <script lang="ts" setup></script>
 <style scoped>
 .footer {
@@ -16,3 +10,8 @@
   width: 100%;
 }
 </style>
+<template>
+    <footer class="footer">
+      <p>&copy; 2025 - Projet Vue TMDB</p>
+    </footer>
+</template>

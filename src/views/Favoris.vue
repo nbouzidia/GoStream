@@ -1,3 +1,12 @@
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useFavoritesStore } from '@/stores/favorites'
+import MovieCard from '@/components/MovieCard.vue'
+
+const favoritesStore = useFavoritesStore()
+const favorites = computed(() => favoritesStore.favorites)
+</script>
 <template>
   <div class="favoris">
     <h1 class="title">Mes Films Favoris</h1>
@@ -30,15 +39,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { useFavoritesStore } from '@/stores/favorites'
-import MovieCard from '@/components/MovieCard.vue'
-
-const favoritesStore = useFavoritesStore()
-const favorites = computed(() => favoritesStore.favorites)
-</script>
 
 <style scoped>
 .favoris {

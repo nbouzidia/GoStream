@@ -34,12 +34,14 @@ onMounted(async () => {
 <style scoped>
 .similar-movies {
   max-width: 1100px;
+  width: 100%;
   margin: 2rem auto;
   padding: 2rem 1rem;
   background: rgba(18, 34, 51, 0.95);
   border-radius: 18px;
   box-shadow: 0 8px 32px #0005;
   color: #fff;
+  box-sizing: border-box;
 }
 
 .similar-movies h1 {
@@ -88,7 +90,9 @@ p {
 
 @media (max-width: 700px) {
   .similar-movies {
-    padding: 1rem 0.2rem;
+    padding: 1rem 0.5rem;
+    margin: 1rem auto;
+    max-width: calc(100vw - 2rem);
   }
   .movie-list {
     gap: 1rem;

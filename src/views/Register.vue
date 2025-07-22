@@ -1,3 +1,30 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const email = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+const authStore = useAuthStore()
+const router = useRouter()
+
+const passwordError = computed(() => {
+  if (password.value && confirmPassword.value && password.value !== confirmPassword.value) {
+    return 'Les mots de passe ne correspondent pas'
+  }
+  return ''
+})
+
+const handleRegister = async () => {
+  if (password.value !== confirmPassword.value) return
+  
+  const success = await authStore.register(email.value, password.value)
+  if (success) {
+    router.push('/home')
+  }
+}
+</script>
 <template>
   <div class="register-page">
     <div class="register-container">
@@ -70,35 +97,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
-
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const authStore = useAuthStore()
-const router = useRouter()
-
-const passwordError = computed(() => {
-  if (password.value && confirmPassword.value && password.value !== confirmPassword.value) {
-    return 'Les mots de passe ne correspondent pas'
-  }
-  return ''
-})
-
-const handleRegister = async () => {
-  if (password.value !== confirmPassword.value) return
-  
-  const success = await authStore.register(email.value, password.value)
-  if (success) {
-    router.push('/home')
-  }
-}
-</script>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap');
 

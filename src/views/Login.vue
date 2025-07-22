@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
+
+const email = ref('')
+const password = ref('')
+const authStore = useAuthStore()
+const router = useRouter()
+
+const handleLogin = async () => {
+  const success = await authStore.login(email.value, password.value)
+  if (success) {
+    router.push('/home')
+  }
+}
+</script>
 <template>
   <div class="login-page">
     <div class="login-container">
@@ -53,25 +70,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useAuthStore } from '../stores/auth'
-import { useRouter } from 'vue-router'
-
-const email = ref('')
-const password = ref('')
-const authStore = useAuthStore()
-const router = useRouter()
-
-const handleLogin = async () => {
-  const success = await authStore.login(email.value, password.value)
-  if (success) {
-    router.push('/home')
-  }
-}
-</script>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap');
 

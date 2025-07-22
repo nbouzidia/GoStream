@@ -1,34 +1,3 @@
-<template>
-  <section class="welcome-carousel" v-if="trends.length > 0">
-    <div class="carousel">
-      <div
-        class="slide"
-        v-for="(movie, index) in trends"
-        :key="movie.id"
-        :class="{ active: index === currentIndex }"
-      >
-        <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
-      </div>
-      <div class="controls">
-        <button @click="prevSlide">‹</button>
-        <button @click="nextSlide">›</button>
-      </div>
-    </div>
-
-    <div class="welcome-content">
-      <h1>Bienvenue sur Go Stream</h1>
-      <p>
-        Découvrez les films populaires, les tendances du moment, les meilleures notes et les sorties à venir.<br>
-        Utilisez la barre de recherche pour trouver un film précis ou explorez par genre.<br>
-        Ajoutez vos films préférés à vos favoris pour les retrouver facilement !
-      </p>
-      <RouterLink :to="`/film/${trends[currentIndex].id}`">
-        <button class="cta">Voir Plus</button>
-      </RouterLink>
-    </div>
-  </section>
-</template>
-
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { getTrend } from '@/services/tmbd'
@@ -60,7 +29,36 @@ onMounted(() => {
   }, 5000)
 })
 </script>
+<template>
+  <section class="welcome-carousel" v-if="trends.length > 0">
+    <div class="carousel">
+      <div
+        class="slide"
+        v-for="(movie, index) in trends"
+        :key="movie.id"
+        :class="{ active: index === currentIndex }"
+      >
+        <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
+      </div>
+      <div class="controls">
+        <button @click="prevSlide">‹</button>
+        <button @click="nextSlide">›</button>
+      </div>
+    </div>
 
+    <div class="welcome-content">
+      <h1>Bienvenue sur Go Stream</h1>
+      <p>
+        Découvrez les films populaires, les tendances du moment, les meilleures notes et les sorties à venir.<br>
+        Utilisez la barre de recherche pour trouver un film précis ou explorez par genre.<br>
+        Ajoutez vos films préférés à vos favoris pour les retrouver facilement !
+      </p>
+      <RouterLink :to="`/film/${trends[currentIndex].id}`">
+        <button class="cta">Voir Plus</button>
+      </RouterLink>
+    </div>
+  </section>
+</template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
