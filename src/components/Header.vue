@@ -1,3 +1,26 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const isOpen = ref(false)
+
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value
+}
+const closeMenu = () => {
+  isOpen.value = false
+}
+
+const logout = async () => {
+  await authStore.logout()
+  closeMenu()
+  router.push('/login')
+}
+</script>
 <template>
   <header id="header">
     <div class="header-content">
@@ -45,30 +68,6 @@
     </div>
   </header>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const authStore = useAuthStore()
-
-const isOpen = ref(false)
-
-const toggleMenu = () => {
-  isOpen.value = !isOpen.value
-}
-const closeMenu = () => {
-  isOpen.value = false
-}
-
-const logout = async () => {
-  await authStore.logout()
-  closeMenu()
-  router.push('/login')
-}
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400&display=swap');
