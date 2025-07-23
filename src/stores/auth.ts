@@ -15,7 +15,6 @@ export const useAuthStore = defineStore('auth', () => {
   const error = ref('')
   const initialized = ref(false)
 
-  // Computed property pour la réactivité
   const isAuthenticated = computed(() => !!user.value)
 
   onAuthStateChanged(auth, (currentUser) => {

@@ -1,15 +1,19 @@
+<script lang="ts" setup>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+</script>
 <template>
   <div id="app" class="app-container">
-    <!-- Écran de chargement pendant l'initialisation -->
     <div v-if="!authStore.initialized" class="loading-screen">
       <div class="loading-spinner">
         <div class="spinner"></div>
         <p>Chargement...</p>
       </div>
     </div>
-    
-    <!-- Application normale une fois initialisée -->
-    <template v-else>
+        <template v-else>
       <Header />
       <main class="main-content">
         <RouterView />
@@ -19,20 +23,18 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-import { useAuthStore } from '@/stores/auth'
-
-const authStore = useAuthStore()
-</script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400&display=swap');
 
-body {
+* {
+  box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
   background-color: #123;
   color: #fff;
   font-family: 'Poppins', sans-serif;
@@ -43,11 +45,16 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .main-content {
   flex: 1;
   padding: 1rem;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 h1, h2, h3, h4, li, p , button {

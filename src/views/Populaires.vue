@@ -1,6 +1,54 @@
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useMoviesStore } from '../stores/movies'
+import { useRouter } from 'vue-router'
+import type { Movie } from '../types/movie'
+
+const moviesStore = useMoviesStore()
+const router = useRouter()
+
+onMounted(async () => {
+  await loadMovies()
+})
+
+const loadMovies = async () => {
+  try {
+    await Promise.all([
+      moviesStore.fetchPopular(),
+      moviesStore.fetchTopRated(),
+      moviesStore.fetchTrends(),
+      moviesStore.fetchUpcoming()
+    ])
+  } catch (error) {
+    console.error('Error loading movies:', error)
+  }
+}
+
+const viewDetails = (movie: Movie) => {
+  router.push(`/film/${movie.id}`)
+}
+
+const addToFavorites = (movie: Movie) => {
+  console.log('Adding to favorites:', movie.title)
+}
+
+const handleImageError = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = '/placeholder-poster.jpg'
+}
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  })
+}
+</script>
+
 <template>
   <div class="populaires-page">
-    <!-- Hero Section -->
     <section class="hero-section" v-if="moviesStore.popular.length > 0">
       <div class="hero-backdrop" :style="{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${moviesStore.popular[0].backdrop_path})` }">
         <div class="hero-overlay">
@@ -24,11 +72,9 @@
             <div class="hero-actions">
               <button class="btn btn-primary" @click="viewDetails(moviesStore.popular[0])">
                 <i class="fas fa-play"></i>
-                Voir les détails
               </button>
               <button class="btn btn-secondary" @click="addToFavorites(moviesStore.popular[0])">
                 <i class="fas fa-heart"></i>
-                Ajouter aux favoris
               </button>
             </div>
           </div>
@@ -44,22 +90,9 @@
       </div>
     </div>
 
-    <!-- Error State -->
-    <div v-if="moviesStore.error" class="error-container">
-      <div class="error-message">
-        <i class="fas fa-exclamation-triangle"></i>
-        <p>{{ moviesStore.error }}</p>
-        <button @click="retry" class="retry-btn">
-          <i class="fas fa-redo"></i>
-          Réessayer
-        </button>
-      </div>
-    </div>
 
-    <!-- Content Sections -->
-    <div class="content-sections" v-if="!moviesStore.loading && !moviesStore.error">
+    <div class="content-sections" v-if="!moviesStore.loading">
       
-      <!-- Popular Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -106,7 +139,6 @@
         </div>
       </section>
 
-      <!-- Top Rated Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -140,7 +172,6 @@
         </div>
       </section>
 
-      <!-- Trending Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -182,7 +213,6 @@
         </div>
       </section>
 
-      <!-- Upcoming Movies Section -->
       <section class="movies-section">
         <div class="section-header">
           <h2>
@@ -220,61 +250,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { onMounted } from 'vue'
-import { useMoviesStore } from '../stores/movies'
-import { useRouter } from 'vue-router'
-import type { Movie } from '../types/movie'
-
-const moviesStore = useMoviesStore()
-const router = useRouter()
-
-onMounted(async () => {
-  await loadMovies()
-})
-
-const loadMovies = async () => {
-  try {
-    await Promise.all([
-      moviesStore.fetchPopular(),
-      moviesStore.fetchTopRated(),
-      moviesStore.fetchTrends(),
-      moviesStore.fetchUpcoming()
-    ])
-  } catch (error) {
-    console.error('Error loading movies:', error)
-  }
-}
-
-const viewDetails = (movie: Movie) => {
-  router.push(`/film/${movie.id}`)
-}
-
-const addToFavorites = (movie: Movie) => {
-  // TODO: Implement favorites functionality
-  console.log('Adding to favorites:', movie.title)
-}
-
-const retry = () => {
-  moviesStore.clearError()
-  loadMovies()
-}
-
-const handleImageError = (event: Event) => {
-  const target = event.target as HTMLImageElement
-  target.src = '/placeholder-poster.jpg'
-}
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  })
-}
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap');

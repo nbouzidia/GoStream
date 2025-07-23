@@ -1,108 +1,3 @@
-<template>
-  <div class="movie-card" @mouseenter="onHover" @mouseleave="onLeave">
-    <div class="poster-container">
-      <!-- Image avec effet de zoom et filtre -->
-      <img
-        v-if="movie.poster_path"
-        :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-        :alt="movie.title"
-        class="poster"
-        loading="lazy"
-      />
-      
-      <!-- Placeholder si pas d'image -->
-      <div v-else class="poster-placeholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21,15 16,10 5,21"/>
-        </svg>
-        <span>{{ movie.title }}</span>
-      </div>
-      
-      <!-- Bouton favori amélioré -->
-      <button 
-        class="favorite-btn" 
-        @click.stop="toggleFavorite"
-        :class="{ active: isFavorite }"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </button>
-      
-      <!-- Note en badge -->
-      <div v-if="movie.vote_average" class="rating-badge">
-        <span class="rating-score">{{ movie.vote_average.toFixed(1) }}</span>
-        <span class="rating-icon">⭐</span>
-      </div>
-      
-      <!-- Overlay amélioré avec plusieurs sections -->
-      <div class="overlay">
-        <!-- Section titre et infos principales -->
-        <div class="overlay-header">
-          <h3 class="movie-title">{{ movie.title }}</h3>
-          <div class="movie-meta">
-            <span v-if="movie.release_date" class="release-date">
-              {{ formatDate(movie.release_date) }}
-            </span>
-            <span v-if="movie.original_language" class="language">
-              {{ movie.original_language.toUpperCase() }}
-            </span>
-          </div>
-        </div>
-        
-        <!-- Section description -->
-        <div class="overlay-content">
-          <p v-if="movie.overview" class="overview">
-            {{ movie.overview.slice(0, 120) }}{{ movie.overview.length > 120 ? '...' : '' }}
-          </p>
-          
-          <!-- Genres si disponibles -->
-          <div v-if="movie.genre_ids && movie.genre_ids.length > 0" class="genres">
-            <span 
-              v-for="genreId in movie.genre_ids.slice(0, 3)" 
-              :key="genreId" 
-              class="genre-tag"
-            >
-              {{ getGenreName(genreId) }}
-            </span>
-          </div>
-        </div>
-        
-        <!-- Section actions -->
-        <div class="overlay-actions">
-          <RouterLink :to="`/film/${movie.id}`" class="details-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12,6 12,12 16,14"/>
-            </svg>
-            <span>Voir les détails</span>
-          </RouterLink>
-          
-          <button 
-            class="quick-favorite-btn"
-            @click.stop="toggleFavorite"
-            :class="{ active: isFavorite }"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-          </button>
-        </div>
-        
-        <!-- Effet de particles animé -->
-        <div class="particles">
-          <div class="particle" v-for="i in 6" :key="i"></div>
-        </div>
-      </div>
-      
-      <!-- Gradient overlay pour améliorer la lisibilité -->
-      <div class="gradient-overlay"></div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import type { Movie } from '@/types/movie'
 import { RouterLink } from 'vue-router'
@@ -119,7 +14,6 @@ const isHovered = ref(false)
 const isFavorite = computed(() => favoritesStore.isFavorite(props.movie.id))
 
 const toggleFavorite = () => {
-  // Convertir Movie en MovieDetail pour le store
   const movieDetail = {
     ...props.movie,
     genres: [],
@@ -180,6 +74,99 @@ const getGenreName = (genreId: number) => {
   return genreMap[genreId] || 'Autre'
 }
 </script>
+<template>
+  <div class="movie-card" @mouseenter="onHover" @mouseleave="onLeave">
+    <div class="poster-container">
+      <img
+        v-if="movie.poster_path"
+        :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+        :alt="movie.title"
+        class="poster"
+        loading="lazy"
+      />
+      
+      <div v-else class="poster-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21,15 16,10 5,21"/>
+        </svg>
+        <span>{{ movie.title }}</span>
+      </div>
+      
+      <button 
+        class="favorite-btn" 
+        @click.stop="toggleFavorite"
+        :class="{ active: isFavorite }"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+      
+      <div v-if="movie.vote_average" class="rating-badge">
+        <span class="rating-score">{{ movie.vote_average.toFixed(1) }}</span>
+        <span class="rating-icon">⭐</span>
+      </div>
+      
+      <div class="overlay">
+        <div class="overlay-header">
+          <h3 class="movie-title">{{ movie.title }}</h3>
+          <div class="movie-meta">
+            <span v-if="movie.release_date" class="release-date">
+              {{ formatDate(movie.release_date) }}
+            </span>
+            <span v-if="movie.original_language" class="language">
+              {{ movie.original_language.toUpperCase() }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="overlay-content">
+          <p v-if="movie.overview" class="overview">
+            {{ movie.overview.slice(0, 120) }}{{ movie.overview.length > 120 ? '...' : '' }}
+          </p>
+          
+          <div v-if="movie.genre_ids && movie.genre_ids.length > 0" class="genres">
+            <span 
+              v-for="genreId in movie.genre_ids.slice(0, 3)" 
+              :key="genreId" 
+              class="genre-tag"
+            >
+              {{ getGenreName(genreId) }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="overlay-actions">
+          <RouterLink :to="`/film/${movie.id}`" class="details-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            <span>Voir les détails</span>
+          </RouterLink>
+          
+          <button 
+            class="quick-favorite-btn"
+            @click.stop="toggleFavorite"
+            :class="{ active: isFavorite }"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="particles">
+          <div class="particle" v-for="i in 6" :key="i"></div>
+        </div>
+      </div>
+      
+      <div class="gradient-overlay"></div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap');
