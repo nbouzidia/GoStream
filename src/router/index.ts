@@ -11,16 +11,10 @@ import Populaires from '@/views/Populaires.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView, meta: { requiresAuth: true } },
-  { path: '/home', name: 'HomeView', component: HomeView, meta: { requiresAuth: true } },
   { path: '/film/:id', name: 'DetailsFilm', component: Details, meta: { requiresAuth: true } },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
-  {
-    path: '/genres/:genreId',
-    name: 'SimilarMovies',
-    component: SimilarMovies,
-    meta: { requiresAuth: true }
-  },
+  { path: '/genres/:genreId', name: 'SimilarMovies', component: SimilarMovies, meta: { requiresAuth: true }},
   { path: '/genres', name: 'Genres', component: Genres, meta: { requiresAuth: true } },
   { path: '/favoris', name: 'Favoris', component: Favoris, meta: { requiresAuth: true } },
   { path:'/popular', name: 'Popular', component: Populaires, meta: { requiresAuth: true } },
